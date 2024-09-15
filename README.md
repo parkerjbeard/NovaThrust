@@ -1,92 +1,240 @@
-Welcome to NovaThrust!
+# NovaThrust
 
-NovaThrust is a cutting-edge simulation toolkit engineered for the next generation of aerospace applications. Developed with precision and performance in mind, it integrates state-of-the-art computational techniques and mathematical models to tackle some of the most challenging problems in aerospace engineering. From the dynamics of new propulsion systems to the aerodynamics of high-speed flight, NovaThrust is your gateway to exploring and innovating in the field of aerospace technology.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![C++](https://img.shields.io/badge/c%2B%2B-17-blue.svg)
+![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/novathrust/build.yml?branch=main)
+
+## Overview
+
+**NovaThrust** is a versatile and comprehensive software solution designed to simulate and control a wide range of rocket propulsion systems. While it offers robust support for Pulse Detonation Engines (PDEs), NovaThrust also accommodates various other niche rocket designs, providing flexibility for aerospace engineers, researchers, and enthusiasts to model, analyze, and optimize diverse propulsion technologies under different flight conditions.
+
+Whether you're working with traditional chemical rockets, innovative electric propulsion systems, or specialized niche designs, NovaThrust delivers the necessary tools to advance your propulsion research and development.
 
 ## Features
 
-- **Multi-Tube PDE Simulation**: Dive into the world of advanced propulsion with our multi-tube pulse detonation engine simulations. NovaThrust models the intricate wave dynamics and energy transformations within these engines, providing insights that help in optimizing engine design and performance.
+### Propulsion System Simulator
 
-- **PDE Flight Simulation**: Utilize partial differential equations to simulate and study the behavior of aircraft under various flight conditions. Our tools allow you to adjust parameters and observe the effects on flight dynamics, offering a powerful method for enhancing aircraft design and safety.
+- **Core Simulation Engine**
+  - Mathematical models representing the physics of various propulsion systems using Partial Differential Equations (PDEs) and other relevant formulations.
+  - Thermodynamic and chemical kinetics models tailored to different engine types, including PDEs, hybrid engines, and electric propulsion systems.
+  - Implementation of numerical methods like finite difference, finite volume, and Runge-Kutta for solving complex equations governing propulsion dynamics.
 
-- **Performance Metrics**: With NovaThrust, not only do you get to simulate, but you also get to measure. Our comprehensive suite of performance metrics allows you to evaluate every aspect of your simulation, from computational speed to accuracy, ensuring that you have all the data you need to make informed decisions.
+- **Multi-Engine Configuration**
+  - Simulate multiple propulsion units simultaneously with independent configurations.
+  - Model interactions between engines, such as thrust interference and shared resources.
+  - Synchronization mechanisms for coordinated operation across multiple propulsion systems.
 
-## Features
+- **Performance Metrics Calculation**
+  - Real-time computation of thrust, specific impulse, fuel efficiency, pressure, and temperature profiles.
+  - Emission predictions and environmental impact assessments for various propulsion technologies.
 
-- **Multi-Tube PDE Simulation**: Simulate the complex interactions in multi-tube pulse detonation engines.
-- **PDE Flight Simulation**: Explore the dynamics of flight using partial differential equations.
-- **Performance Metrics**: Evaluate the performance of simulations with detailed metrics.
+- **Integration with Flight Dynamics**
+  - Incorporate flight dynamics models to evaluate engine performance under diverse flight conditions.
+  - Stability analysis to assess the impact on vehicle control, maneuverability, and overall flight behavior.
 
-## Prerequisites
+### Thrust Vector Control (TVC) Optimizer
 
-Before you can build and run NovaThrust, you need to have the following installed on your system:
-- CMake 3.10 or higher
-- A C++ compiler supporting C++17 standard
-- OpenBLAS
-- FFTW (The Fastest Fourier Transform in the West)
-- Eigen3 (version 3.3 or higher)
+- **Control System Modeling**
+  - Algorithms to adjust thrust vectors for optimal maneuvering and stabilization across different propulsion systems.
+  - Simulation of actuators responsible for thrust vectoring with integrated feedback mechanisms.
 
-## Installation
+- **Pulse Timing Optimization (Focused on PDEs)**
+  - Optimize detonation pulse sequences and timing specifically for Pulse Detonation Engines to maximize thrust and maintain desired flight characteristics.
+  - Adaptive algorithms that respond to changing flight conditions and control inputs, enhancing the versatility of PDE-focused optimizations.
 
-1. **Clone the repository:**
+- **Performance Objective Functions**
+  - Define and optimize objectives such as minimizing fuel consumption, maximizing thrust, ensuring stable flight, and accommodating the unique requirements of various propulsion systems.
+  - Utilize advanced optimization techniques like genetic algorithms, gradient descent, and machine learning-based approaches for performance enhancements.
+
+### Software Architecture
+
+- **Core Framework**
+  - Modular and scalable architecture facilitating future extensions and feature additions.
+  - Separation of concerns between simulation, control, and data management modules, allowing easy integration of new propulsion technologies.
+
+- **Numerical Methods**
+  - Implementation of finite element methods (FEM), high-order Runge-Kutta solvers, and other numerical techniques tailored to different propulsion system requirements.
+  - Stability and accuracy checks to ensure reliable simulation results across various engine types.
+
+- **Data Handling and Analysis**
+  - Efficient data storage solutions for large-scale datasets and real-time results.
+  - Tools for data retrieval, querying, and post-processing analysis, supporting multiple propulsion system data formats.
+
+### Integration and Testing
+
+- **Unit Testing**
+  - Comprehensive test cases for individual modules, algorithms, and numerical methods.
+  - Automated testing frameworks to ensure continuous code quality and reliability.
+
+- **Integration Testing**
+  - Cohesive testing of simulation engine, TVC optimizer, and data management components across different propulsion systems.
+  - Performance and compatibility assessments in diverse operational environments.
+
+- **Validation**
+  - Benchmarking against analytical solutions and experimental data specific to various propulsion technologies.
+  - Peer-reviewed validation of models and simulation results to ensure accuracy and reliability.
+
+## Getting Started
+
+### Prerequisites
+
+Before installing NovaThrust, ensure you have the following prerequisites:
+
+- **Operating System:** Windows 10 or later, macOS Catalina or later, Linux (Ubuntu 18.04 or later)
+- **C++ Compiler:** GCC 7.0 or higher, Clang 7.0 or higher, or MSVC 2017 or higher
+- **Build System:** CMake 3.15 or higher
+- **Dependencies:** Listed in `CMakeLists.txt` and `README.md` for specific library requirements
+- **Hardware:** Minimum 8 GB RAM, recommended multi-core CPU for optimal simulation performance
+
+### Installation
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/parkerjbeard/novathrust.git
+   cd novathrust
    ```
-   git clone https://github.com/parkerjbeard/NovaThrust.git
-   ```
-2. **Navigate to the cloned directory:**
-   ```
-   cd NovaThrust
+
+2. **Install Dependencies**
+
+   Ensure all required libraries are installed. Common dependencies might include:
+
+   - **Eigen:** For linear algebra operations
+   - **Boost:** For various utilities
+   - **OpenMP:** For parallel processing (optional)
+   - **Catch2:** For unit testing
+
+   *Example for Ubuntu:*
+
+   ```bash
+   sudo apt-get update
+   sudo apt-get install libeigen3-dev libboost-all-dev
    ```
 
-3. **Configure the project with CMake:**
-   ```
-   cmake .
+3. **Build the Project**
+
+   ```bash
+   mkdir build
+   cd build
+   cmake ..
+   make
    ```
 
-4. **Build the project:**
+4. **Run Tests (Optional)**
+
+   To ensure everything is set up correctly, run the test suite:
+
+   ```bash
+   make test
    ```
-   cmake --build .
+
+### Quick Start
+
+1. **Launch the Application**
+
+   After building, execute the main application:
+
+   ```bash
+   ./NovaThrust
    ```
+
+2. **Configure a Simulation**
+
+   - Define propulsion system configurations, flight dynamics parameters, and control settings using configuration files or command-line arguments.
+
+3. **Run the Simulation**
+
+   - Start the simulation and monitor progress through the console output or log files.
+
+4. **Analyze Results**
+
+   - Use the built-in data analysis tools or export data for external analysis.
 
 ## Usage
 
-After building the project, you can run the provided examples:
-- `./NovaThrust`
-- `./MultiTubePDESimulation`
-- `./PDEFlightSimulation`
-- `./PerformanceMetricsExample`
+### Simulation Setup
 
-## Customization
+- **Configuring Propulsion Systems**
+  - Define geometry, fuel type, operating conditions, and other relevant parameters for each propulsion system.
+  - Set initial and boundary conditions tailored to the specific engine types being simulated.
 
-You can set the `OpenBLAS_HOME` environment variable to specify the installation path of OpenBLAS if it is not in the default location.
+- **Flight Dynamics Integration**
+  - Input flight parameters such as altitude, airspeed, and maneuvering requirements.
+  - Select environmental models to simulate atmospheric effects and other external factors.
+
+- **Control Parameters**
+  - Configure thrust vector control settings, including actuator models and feedback mechanisms tailored to different propulsion systems.
+
+### Running Simulations
+
+- **Start Simulation**
+  - Initiate the simulation via command-line or configuration interface.
+  - Monitor progress through real-time status indicators and logs.
+
+- **Pause/Resume**
+  - Implement pause and resume functionalities to manage long-running simulations without losing progress.
+
+- **Stop Simulation**
+  - Terminate simulations safely to prevent data corruption and ensure system integrity.
+
+## Documentation
+
+Comprehensive documentation is available to guide you through all aspects of NovaThrust:
+
+- **User Manual:** Detailed instructions on using the software's features and tools.
+- **Developer Guide:** In-depth information on the software architecture, algorithms, and codebase.
+- **API Reference:** Documentation of available APIs for extending and interfacing with the software.
 
 ## Contributing
 
-Contributions to NovaThrust are welcome! Please refer to the contributing guidelines for more information on how to submit pull requests, report issues, and so on.
+Contributions are welcome! To ensure a smooth collaboration process, please follow the guidelines below:
+
+1. **Fork the Repository**
+
+2. **Create a Feature Branch**
+
+   ```bash
+   git checkout -b feature/YourFeatureName
+   ```
+
+3. **Commit Your Changes**
+
+   ```bash
+   git commit -m "Add your message"
+   ```
+
+4. **Push to the Branch**
+
+   ```bash
+   git push origin feature/YourFeatureName
+   ```
+
+5. **Open a Pull Request**
+
+Please read the [Contributing Guidelines](CONTRIBUTING.md) for more details on our code of conduct and the process for submitting pull requests.
+
+## Versioning
+
+We use [Semantic Versioning](https://semver.org/) to manage releases. For the available versions, see the [tags on this repository](https://github.com/parkerjbeard/novathrust/tags).
 
 ## License
 
-NovaThrust is released under the MIT License. See the LICENSE file for more details.
+This project is licensed under the [MIT License](LICENSE.md) - see the [LICENSE](LICENSE.md) file for details.
 
-## Acknowledgments
+## Contact
 
-This project utilizes the following open-source libraries:
-- OpenBLAS
-- FFTW
-- Eigen
+For questions, support, or contributions, please contact:
 
-Thank you to all the contributors who help in maintaining and improving these libraries.
+- **Project Maintainer:** [Parker Beard](mailto:parkerjohnsonbeard@gmail.com)
+- **GitHub Issues:** [Open an Issue](https://github.com/parkerjbeard/novathrust/issues)
+- **Discussion Forum:** [Join the Discussion](https://github.com/parkerjbeard/novathrust/discussions)
 
-Enjoy using NovaThrust for your simulation needs!
+## Acknowledgements
 
-## Roadmap
+- **OpenAI:** For providing the initial framework and assistance.
+- **Contributors:** Special thanks to all the contributors who have helped improve this project.
+- **Libraries and Tools:** Utilizing powerful libraries like Eigen, Boost, and more to enhance functionality and simulation capabilities.
 
-Looking ahead, NovaThrust is committed to expanding its capabilities and offering more advanced features to enhance user experience and simulation accuracy. Here are some of the exciting developments we have planned:
+---
 
-- **More Types of Rockets**: We plan to include simulations for a broader range of rocket types, including liquid, solid, and hybrid propulsion systems. This will allow users to explore and compare different rocket technologies under various operational conditions.
-
-- **Hardware Connectivity**: Future versions will support hardware-in-the-loop (HIL) simulations, enabling users to connect NovaThrust with actual control hardware. This feature aims to provide a more realistic simulation environment for testing and validation of control strategies.
-
-- **Python Bindings and Enhanced Visualization**: To make NovaThrust more accessible and versatile, we will introduce Python bindings. This will allow users to script simulations and analyses in Python. Additionally, these bindings will support enhanced visualization tools, making it easier to interpret simulation results and perform complex analyses.
-
-These features are designed to make NovaThrust a more powerful tool in the arsenal of aerospace engineers and researchers, pushing the boundaries of what can be achieved in aerospace simulation.
-
-Enjoy using NovaThrust for your simulation needs!
+*Enhance your rocket propulsion simulations and control strategies with NovaThrust's robust and user-friendly software. We welcome your feedback and contributions to make this tool even better!*

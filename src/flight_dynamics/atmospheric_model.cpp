@@ -1,18 +1,42 @@
 #include "flight_dynamics/atmospheric_model.hpp"
 #include <random>
+#include <stdexcept>
 
-AtmosphericModel::AtmosphericModel() {}
+AtmosphericModel::AtmosphericModel()
+    : generator(std::random_device{}()) {}  // Initialize the random number generator once
 
 AtmosphericModel::AtmosphericProperties AtmosphericModel::getAtmosphericProperties(double altitude) const {
+    if (altitude < 0.0 || altitude > 100000.0) {  // Validate altitude (0 to 100 km)
+        throw std::out_of_range("Altitude must be between 0 and 100,000 meters.");
+    }
+
     AtmosphericProperties props;
-    props.temperature = calculateTemperature(altitude);
-    props.pressure = calculatePressure(altitude);
+
+    // Determine the atmospheric layer based on altitude
+    if (altitude <= 11000.0) {  // Troposphere
+        props.temperature = calculateTemperatureTroposphere(altitude);
+        props.pressure = calculatePressureTroposphere(altitude, props.temperature);
+    }
+    else if (altitude <= 25000.0) {  // Lower Stratosphere
+        props.temperature = calculateTemperatureStratosphere(altitude);
+        props.pressure = calculatePressureStratosphere(altitude, props.temperature);
+    }
+    else {  // Higher layers can be added similarly
+        props.temperature = calculateTemperatureMesosphere(altitude);
+        props.pressure = calculatePressureMesosphere(altitude, props.temperature);
+    }
+
     props.density = calculateDensity(props.pressure, props.temperature);
     return props;
 }
 
 AtmosphericModel::WindVector AtmosphericModel::computeWindEffects(double altitude, double time) const {
-    WindVector wind = calculateWindModel(altitude, time);
+    if (altitude < 0.0 || altitude > 100000.0) {  // Validate altitude
+        throw std::out_of_range("Altitude must be between 0 and 100,000 meters.");
+    }
+
+    // Integrate a more sophisticated wind profile model
+    WindVector wind = calculateAdvancedWindModel(altitude, time);
     WindVector gust = calculateGustModel(time);
     
     // Combine wind and gust effects
@@ -33,26 +57,44 @@ double AtmosphericModel::calculateDensity(double pressure, double temperature) c
     return pressure / (R * temperature);
 }
 
-double AtmosphericModel::calculatePressure(double altitude) const {
-    double temperature = calculateTemperature(altitude);
+double AtmosphericModel::calculatePressureTroposphere(double altitude, double temperature) const {
     return P0 * std::pow(temperature / T0, -g / (R * L));
 }
 
-double AtmosphericModel::calculateTemperature(double altitude) const {
+double AtmosphericModel::calculateTemperatureTroposphere(double altitude) const {
     return T0 - L * altitude;
 }
 
-AtmosphericModel::WindVector AtmosphericModel::calculateWindModel(double altitude, double time) const {
-    // Implement a simple wind model that varies with altitude and time
+double AtmosphericModel::calculatePressureStratosphere(double altitude, double temperature) const {
+    // Example calculation for stratosphere (simplified)
+    return P0 * std::exp(-g * (altitude - 11000.0) / (R * temperature));
+}
+
+double AtmosphericModel::calculateTemperatureStratosphere(double altitude) const {
+    // Example: Temperature inversion in stratosphere
+    return 216.65;  // Constant temperature in lower stratosphere
+}
+
+double AtmosphericModel::calculatePressureMesosphere(double altitude, double temperature) const {
+    // Example calculation for mesosphere (simplified)
+    return P0 * std::exp(-g * (altitude - 25000.0) / (R * temperature));
+}
+
+double AtmosphericModel::calculateTemperatureMesosphere(double altitude) const {
+    // Example: Decreasing temperature in mesosphere
+    return 216.65 - 0.001 * (altitude - 25000.0);
+}
+
+AtmosphericModel::WindVector AtmosphericModel::calculateAdvancedWindModel(double altitude, double time) const {
+    // Placeholder for a more sophisticated wind model
+    // This can be replaced with real atmospheric data or a complex mathematical model
     WindVector wind;
-    wind.velocity = 5.0 + 2.0 * std::sin(0.001 * altitude) + 1.5 * std::cos(0.1 * time);
-    wind.direction = 0.5 * M_PI * std::sin(0.0005 * altitude) + 0.2 * std::cos(0.05 * time);
+    wind.velocity = 10.0 + 5.0 * std::sin(0.0001 * altitude) + 3.0 * std::cos(0.05 * time);
+    wind.direction = M_PI * std::sin(0.0002 * altitude) + 0.3 * std::cos(0.02 * time);
     return wind;
 }
 
 AtmosphericModel::WindVector AtmosphericModel::calculateGustModel(double time) const {
-    // Implement a simple gust model using random number generation
-    static std::default_random_engine generator(static_cast<unsigned>(time));
     std::normal_distribution<double> velocity_distribution(0.0, 2.0);
     std::uniform_real_distribution<double> direction_distribution(0.0, 2.0 * M_PI);
 

@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![C++](https://img.shields.io/badge/c%2B%2B-17-blue.svg)
-![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/novathrust/build.yml?branch=main)
+![Build Status](https://img.shields.io/github/actions/workflow/status/parkerjbeard/novathrust/build.yml?branch=main)
 
 ## Overview
 
@@ -15,7 +15,7 @@ Whether you're working with traditional chemical rockets, innovative electric pr
 ### Propulsion System Simulator
 
 - **Core Simulation Engine**
-  - Mathematical models representing the physics of various propulsion systems using Partial Differential Equations (PDEs) and other relevant formulations.
+  - Mathematical models representing the physics of various propulsion systems using Partial Differential Equations and other relevant formulations.
   - Thermodynamic and chemical kinetics models tailored to different engine types, including PDEs, hybrid engines, and electric propulsion systems.
   - Implementation of numerical methods like finite difference, finite volume, and Runge-Kutta for solving complex equations governing propulsion dynamics.
 
